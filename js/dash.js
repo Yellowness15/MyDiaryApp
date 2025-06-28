@@ -15,14 +15,15 @@ function fetchEntries() {
   const token = localStorage.getItem('token');
   
   // Make API request to get entries
-  axios.get('https://tunga-diary-api.onrender.com/api/fullstack/entries', {
+  axios.get('https://tunga-diary-api.onrender.com/api/fullstack/diary/entries', {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   })
   .then(function(response) {
     // Handle successful response
-    displayEntries(response.data);
+    console.log(response.data.data)
+    displayEntries(response.data.data);
   })
   .catch(function(error) {
     // Handle errors

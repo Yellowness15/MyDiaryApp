@@ -41,8 +41,9 @@ body {
 /* Entries */
 .entries-container {
   display: flex;
+  flex-direction: column;
   flex: 1;
-  justify-content: space-around;
+  justify-content: flex-start;
   gap: 2rem;
   padding: 1rem;
 }
@@ -54,7 +55,6 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background-color 0.2s ease;
-  width: 100%;
 }
 
 .entry-card:hover {
