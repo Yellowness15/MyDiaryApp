@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entries- My Diary</title>
+  <link rel="stylesheet" href="css/dash.css" />
+</head>
+
+<body>
+  <div class="header">
+    <h1>My Diary</h1>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <main class="entries-container" id="entries-list">
+    <div class="entry-card" onclick="location.href='entry.html'">
+      <h3>Grateful Moments</h3>
+      <small>June 13, 2025</small>
+    </div>
+    <div class="entry-card" onclick="location.href='entry.html'">
+      <h3>Thoughts on the Week</h3>
+      <small>June 10, 2025</small>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <button onclick="location.href='entry.html'">+ New Entry</button>
+  </nav>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+
+</html>
