@@ -11,7 +11,6 @@ body {
 
 /*Landing page*/
 .header {
-  height: 4.5rem;
   background: #e72f8bc2;
   color: #fff;
   font-weight: 900;
@@ -19,11 +18,11 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 h2 {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
 }
 
 .tagline {
@@ -44,9 +43,8 @@ h2 {
 
 .cards {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 3rem;
+  flex-direction: column;
+  align-self: center;
   gap: 2rem;
 }
 
@@ -62,7 +60,6 @@ h2 {
 .landing-container .intro-text,
 .landing-container .other-text {
   color: #e72f8bc2;
-  line-height: 1.6;
   font-size: 2rem;
 }
 
