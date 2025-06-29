@@ -7,6 +7,15 @@ body {
   padding: 1.25rem;
 }
 
+/* Utility classes for showing/hiding elements */
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block;
+}
+
 /*Header*/
 .header {
   display: flex;
@@ -51,6 +60,17 @@ body {
 
 .save-button {
   background-color: #37af65;
+  color: #fff;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 1.25rem;
+  padding: 0.7rem 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button {
+  background-color: #b53430;
   color: #fff;
   font-size: 1.25rem;
   border: none;

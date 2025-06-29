@@ -23,7 +23,7 @@ function fetchEntries() {
   .then(function(response) {
     // Handle successful response
     console.log(response.data.data)
-    displayEntries(response.data.data);
+    displayEntries(response.data.data);  //Accesses an array nested inside the response body.
   })
   .catch(function(error) {
     // Handle errors
@@ -72,7 +72,7 @@ function displayEntries(entries) {
     
     // Add click event to view entry details
     card.addEventListener('click', function() {
-      window.location.href = `entry.html?id=${entry._id}`;
+      window.location.href = `entry.html?id=${entry.id}`;
     });
     
     container.appendChild(card);

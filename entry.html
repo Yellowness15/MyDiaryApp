@@ -8,15 +8,21 @@
 </head>
 <body>
 <div class="header">
-    <h1>New Entry</h1>
+    <h1 id="page-title">New Entry</h1>
     <button onclick="location.href='dashboard.html'">Back</button>
   </div>
 
-  <form class="entry-form">
-    <input type="text" id="entry" name="entry" placeholder="Entry title..." required />
-    <textarea rows="20" placeholder="Start writing here..." required></textarea>
+  <div id="loading" class="hidden">Loading...</div>
+  <div id="date-display"></div>
+  <div id="status-message"></div>
+
+  <form class="entry-form" id="entry-form">
+    <input type="text" id="entry-title" name="entry-title" placeholder="Entry title..." required />
+    <textarea rows="20" id="entry-content" placeholder="Start writing here..." required></textarea>
     <button type="submit" class="save-button">Save Entry</button>
+    <button type="button" class="hidden delete-button" id="delete-button">Delete Entry</button>
   </form>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="js/entry.js"></script>
 </body>
 </html>

@@ -18,20 +18,20 @@ const entryId = urlParams.get('id');
 let isNewEntry = true;
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Check if we're editing an existing entry
     if (entryId) {
         isNewEntry = false;
         pageTitle.textContent = 'Edit Entry';
-        deleteButton.style.display = 'block';
+        deleteButton.classList.remove('hidden'); // Show delete button for existing entries
         fetchEntry();
     } else {
         // For new entries, show the form immediately
-        entryForm.style.display = 'block';
-        loadingElement.style.display = 'none';
+        entryForm.classList.remove('hidden');
+        loadingElement.classList.add('hidden');
         showCurrentDate();
     }
-    
+
     // Setup form event listeners
     entryForm.addEventListener('submit', handleFormSubmit);
     deleteButton.addEventListener('click', handleDelete);
@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // Show current date for new entries
 function showCurrentDate() {
     const now = new Date();
-    const options = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     };
     dateDisplay.textContent = now.toLocaleDateString('en-US', options);
 }
@@ -56,58 +56,60 @@ function fetchEntry() {
         redirectToLogin();
         return;
     }
-    
-    axios.get(API_BASE_URL + '/diary/' + entryId, {
+
+    axios.get(API_BASE_URL + '/diary/entry/' + entryId, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     })
-    .then(function(response) {
-        // Populate form with entry data
-        entryTitle.value = response.data.title;
-        entryContent.value = response.data.content;
-        
-        // Format and display date
-        const entryDate = new Date(response.data.date);
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        dateDisplay.textContent = entryDate.toLocaleDateString('en-US', options);
-        
-        // Show the form
-        entryForm.style.display = 'block';
-        loadingElement.style.display = 'none';
-    })
-    .catch(function(error) {
-        loadingElement.style.display = 'none';
-        showMessage('Error loading entry. Please try again.', 'error');
-        console.error('Error fetching entry:', error);
-    });
+        .then(function (response) {
+            // Populate form with entry data
+            let data = response.data.data;
+            console.log(data);
+            entryTitle.value = data.title;
+            entryContent.value = data.content;
+
+            // Format and display date
+            const entryDate = new Date(data.updatedAt);
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            dateDisplay.textContent = entryDate.toLocaleDateString('en-US', options);
+
+            // Show the form
+            entryForm.classList.remove('hidden');
+            loadingElement.classList.add('hidden');
+        })
+        .catch(function (error) {
+            loadingElement.classList.add('hidden');
+            showMessage('Error loading entry. Please try again.', 'error');
+            console.error('Error fetching entry:', error);
+        });
 }
 
 // Handle form submission for both create and update
 function handleFormSubmit(event) {
     event.preventDefault();
-    
+
     const token = localStorage.getItem('token');
     if (!token) {
         redirectToLogin();
         return;
     }
-    
+
     // Prepare entry data
     const entryData = {
         title: entryTitle.value,
         content: entryContent.value
     };
-    
+
     // Show loading state
     saveButton.textContent = 'Saving...';
     saveButton.disabled = true;
-    
+
     if (isNewEntry) {
         // Create a new entry
         createEntry(entryData, token);
@@ -119,41 +121,41 @@ function handleFormSubmit(event) {
 
 // Create a new diary entry
 function createEntry(entryData, token) {
-    axios.post(API_BASE_URL + '/diary', entryData, {
+    axios.post(API_BASE_URL + '/diary/create', entryData, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     })
-    .then(function(response) {
-        showMessage('Entry created successfully! Redirecting to dashboard...', 'success');
-        setTimeout(function() {
-            window.location.href = 'dashboard.html';
-        }, 1500);
-    })
-    .catch(function(error) {
-        handleApiError(error, 'creating');
-        saveButton.textContent = 'Save Entry';
-        saveButton.disabled = false;
-    });
+        .then(function (response) {
+            showMessage('Entry created successfully! Redirecting to dashboard...', 'success');
+            setTimeout(function () {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        })
+        .catch(function (error) {
+            handleApiError(error, 'creating');
+            saveButton.textContent = 'Save Entry';
+            saveButton.disabled = false;
+        });
 }
 
 // Update an existing diary entry
 function updateEntry(entryData, token) {
-    axios.put(API_BASE_URL + '/diary/' + entryId, entryData, {
+    axios.put(API_BASE_URL + '/diary/update/' + entryId, entryData, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     })
-    .then(function(response) {
-        showMessage('Entry updated successfully!', 'success');
-        saveButton.textContent = 'Save Entry';
-        saveButton.disabled = false;
-    })
-    .catch(function(error) {
-        handleApiError(error, 'updating');
-        saveButton.textContent = 'Save Entry';
-        saveButton.disabled = false;
-    });
+        .then(function (response) {
+            showMessage('Entry updated successfully!', 'success');
+            saveButton.textContent = 'Save Entry';
+            saveButton.disabled = false;
+        })
+        .catch(function (error) {
+            handleApiError(error, 'updating');
+            saveButton.textContent = 'Save Entry';
+            saveButton.disabled = false;
+        });
 }
 
 // Handle entry deletion
@@ -161,33 +163,33 @@ function handleDelete() {
     if (!confirm('Are you sure you want to delete this entry? This action cannot be undone.')) {
         return;
     }
-    
+
     const token = localStorage.getItem('token');
     if (!token) {
         redirectToLogin();
         return;
     }
-    
+
     deleteButton.textContent = 'Deleting...';
     deleteButton.disabled = true;
-    
-    axios.delete(API_BASE_URL + '/diary/' + entryId, {
+
+    axios.delete(API_BASE_URL + '/diary/delete/' + entryId, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     })
-    .then(function(response) {
-        showMessage('Entry deleted successfully! Redirecting to dashboard...', 'success');
-        setTimeout(function() {
-            window.location.href = 'dashboard.html';
-        }, 1500);
-    })
-    .catch(function(error) {
-        showMessage('Error deleting entry. Please try again.', 'error');
-        deleteButton.textContent = 'Delete Entry';
-        deleteButton.disabled = false;
-        console.error('Delete error:', error);
-    });
+        .then(function (response) {
+            showMessage('Entry deleted successfully! Redirecting to dashboard...', 'success');
+            setTimeout(function () {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        })
+        .catch(function (error) {
+            showMessage('Error deleting entry. Please try again.', 'error');
+            deleteButton.textContent = 'Delete Entry';
+            deleteButton.disabled = false;
+            console.error('Delete error:', error);
+        });
 }
 
 // Show status message
@@ -199,7 +201,7 @@ function showMessage(text, type) {
 // Handle API errors
 function handleApiError(error, action) {
     let errorMessage = 'Error ' + action + ' entry.';
-    
+
     if (error.response) {
         if (error.response.status === 401) {
             errorMessage = 'Session expired. Please login again.';
@@ -210,7 +212,7 @@ function handleApiError(error, action) {
     } else if (error.request) {
         errorMessage = 'Network error. Please check your connection.';
     }
-    
+
     showMessage(errorMessage, 'error');
 }
 
