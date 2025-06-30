@@ -1,8 +1,10 @@
+//Base URL for the API endpoints
 const API_BASE_URL = "https://tunga-diary-api.onrender.com/api/fullstack";
-
+// Get the login form element from the DOM
 const loginForm = document.getElementById("login-form");
 
 if(loginForm) {
+     // Add a submit event listener to the login form
     loginForm.addEventListener('submit', async function (event) {
         event.preventDefault();
         
@@ -42,7 +44,7 @@ if(loginForm) {
                 // Request was made but no response received
                 alert('Network error. Please check your connection.');
             } else {
-                // Other setup errors
+                // An error occurred in setting up the request
                 alert('Login error: ' + error.message);
             }
         }

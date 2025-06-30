@@ -69,7 +69,7 @@ function fetchEntry() {
             entryTitle.value = data.title;
             entryContent.value = data.content;
 
-            // Format and display date
+            // Format and display the entry's last updated date
             const entryDate = new Date(data.updatedAt);
             const options = {
                 weekday: 'long',

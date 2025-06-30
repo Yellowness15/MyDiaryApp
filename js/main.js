@@ -5,6 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     getStartedBtn.addEventListener('click', function (event) {
     event.preventDefault();  //prevents default action
     console.log('User clicked "Get Started" on landing page');
-    window.location.href = 'login.html';   //performs a redirect manually.
+    window.location.href = 'login.html';   //performs a redirect to the login page manually.
 });
 })

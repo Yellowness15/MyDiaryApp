@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const token = localStorage.getItem('token');
   if (!token) {
     alert('Please login first');
-    window.location.href = 'login.html';
+    window.location.href = 'login.html'; // Redirect to login if not authenticated
     return;
   }
 
@@ -17,7 +17,7 @@ function fetchEntries() {
   // Make API request to get entries
   axios.get('https://tunga-diary-api.onrender.com/api/fullstack/diary/entries', {
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}` // Pass token in Authorization header
     }
   })
   .then(function(response) {
@@ -30,7 +30,8 @@ function fetchEntries() {
     console.error('Error fetching entries:', error);
     
     if (error.response && error.response.status === 401) {
-      alert('Session expired. Please login again.');
+      // If token is invalid or expired, alert user and log out
+      alert('Session expired. Please login again.');      
       logout();
     } else {
       alert('Failed to load entries. Please try again later.');
@@ -39,7 +40,7 @@ function fetchEntries() {
 }
 
 function displayEntries(entries) {
-  //  Get container element
+  //  Get container element for entries
   const container = document.getElementById('entries-list');
   
   // Clear existing content
@@ -64,7 +65,7 @@ function displayEntries(entries) {
       year: 'numeric'
     });
     
-    // Build card content
+    // Build card content with title and date
     card.innerHTML = `
       <h3>${entry.title || 'Untitled Entry'}</h3>
       <small>${formattedDate}</small>
