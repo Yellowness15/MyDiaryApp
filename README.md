@@ -22,7 +22,7 @@ A simple web-based diary application that allows users to securely log in, creat
 |------------------|------------------|
 | Frontend         | HTML, CSS, JavaScript |
 | Styling Tools    | CSS3 (vanilla)   |
-| HTTP Client      | Fetch API        |
+| HTTP Client      | Axios, Fetch API        |
 | Backend API      | [Tunga Diary API](https://tunga-diary-api.onrender.com/fullstack/api-docs/) |
 
 ## Getting Started
